@@ -3,10 +3,6 @@ package com.assu.server.domain.chat.dto;
 import com.assu.server.domain.chat.entity.Block;
 import com.assu.server.domain.common.enums.UserRole;
 import com.assu.server.domain.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;

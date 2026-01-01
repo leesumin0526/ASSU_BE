@@ -1,8 +1,5 @@
 package com.assu.server.domain.chat.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 
 public record ChatRoomUpdateDTO(

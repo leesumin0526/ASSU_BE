@@ -1,13 +1,14 @@
 package com.assu.server.domain.chat.entity;
 
 import com.assu.server.domain.chat.dto.ChatRequestDTO;
-import com.assu.server.domain.member.entity.Member;
 import com.assu.server.domain.chat.entity.enums.MessageType;
-
 import com.assu.server.domain.common.entity.BaseEntity;
-
+import com.assu.server.domain.member.entity.Member;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter

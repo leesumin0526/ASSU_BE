@@ -4,11 +4,7 @@ import com.assu.server.domain.chat.entity.ChattingRoom;
 import com.assu.server.domain.chat.entity.Message;
 import com.assu.server.domain.chat.entity.enums.MessageType;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.protobuf.Enum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.List;
 

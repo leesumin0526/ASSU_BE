@@ -1,23 +1,19 @@
 package com.assu.server.domain.chat.controller;
 
 import com.assu.server.domain.chat.dto.*;
-import com.assu.server.domain.chat.repository.MessageRepository;
 import com.assu.server.domain.chat.service.BlockService;
 import com.assu.server.domain.chat.service.ChatService;
-import com.assu.server.domain.member.repository.MemberRepository;
-import com.assu.server.domain.notification.service.NotificationCommandService;
+import com.assu.server.global.apiPayload.BaseResponse;
 import com.assu.server.global.apiPayload.code.status.SuccessStatus;
-import com.assu.server.global.util.PresenceTracker;
 import com.assu.server.global.util.PrincipalDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import com.assu.server.global.apiPayload.BaseResponse;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 
