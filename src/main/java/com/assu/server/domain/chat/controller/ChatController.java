@@ -33,7 +33,7 @@ public class ChatController {
     @Operation(
             summary = "채팅방을 생성하는 API",
             description = "# [v1.0 (2025-08-05)](https://clumsy-seeder-416.notion.site/2241197c19ed80c38871ec77deced713) 채팅방을 생성합니다.\n"+
-                    "- storeId: Request Body, Long\n" +
+                    "- adminId: Request Body, Long\n" +
                     "- partnerId: Request Body, Long\n"
     )
     @PostMapping("/rooms")
@@ -62,7 +62,8 @@ public class ChatController {
                     "- roomId: Request Body, Long\n" +
                     "- senderId: Request Body, Long\n"+
                     "- receiverId: Request Body, Long\n" +
-                    "- message: Request Body, String\n"
+                    "- message: Request Body, String\n" +
+                    "- unreadCountForSender: Request Body, int\n"
     )
     @MessageMapping("/send")
     public void handleMessage(@Payload ChatRequestDTO.ChatMessageRequestDTO request) {
@@ -129,7 +130,7 @@ public class ChatController {
             summary = "상대방을 차단하는 API" +
                     "상대방을 차단합니다. 메시지를 주고받을 수 없습니다.",
             description = "# [v1.0 (2025-09-25)](https://clumsy-seeder-416.notion.site/2db1197c19ed804ba3dbf57ba36860c4) 상대방을 차단합니다.\n"+
-                    "- memberId: Request Body, Long\n"
+                    "- opponentId: Request Body, Long\n"
     )
     @PostMapping("/block")
     public BaseResponse<BlockResponseDTO.BlockMemberDTO> block(
@@ -144,7 +145,7 @@ public class ChatController {
             summary = "상대방을 차단했는지 확인하는 API" +
                     "상대방을 차단했는지 여부를 알려줍니다.",
             description = "# [v1.0 (2025-09-25)](https://clumsy-seeder-416.notion.site/2db1197c19ed80769521eab9660ac53f) 상대방을 차단했는지 검사합니다.\n"+
-                    "- memberId: Request Body, Long\n"
+                    "- opponentId: Request Body, Long\n"
     )
     @GetMapping("/check/block/{opponentId}")
     public BaseResponse<BlockResponseDTO.CheckBlockMemberDTO> checkBlock(
@@ -159,7 +160,7 @@ public class ChatController {
             summary = "상대방을 차단 해제하는 API" +
                     "상대방을 차단해제합니다. 앞으로 다시 메시지를 주고받을 수 있습니다.",
             description = "# [v1.0 (2025-09-25)](https://clumsy-seeder-416.notion.site/2db1197c19ed80b6a93fcbe277fc934c?pvs=74) 상대방을 차단 해제합니다.\n"+
-                    "- memberId: Request Body, Long\n"
+                    "- opponentId: Request Body, Long\n"
     )
     @DeleteMapping("/unblock")
     public BaseResponse<BlockResponseDTO.BlockMemberDTO> unblock(
@@ -173,8 +174,7 @@ public class ChatController {
     @Operation(
             summary = "차단한 대상을 조회합니다." +
                     "본인이 차단한 대상을 모두 조회합니다.",
-            description = "# [v1.0 (2025-09-25)]() 차단한 대상을 조회합니다..\n"+
-                    "- memberId: Request Body, Long\n"
+            description = "# [v1.0 (2025-09-25)](https://clumsy-seeder-416.notion.site/2db1197c19ed8000b047d9857bcbbb2f) 차단한 대상을 조회합니다..\n"
     )
     @GetMapping("/blockList")
     public BaseResponse<List<BlockResponseDTO.BlockMemberDTO>> getBlockList(
