@@ -1,6 +1,7 @@
 package com.assu.server.domain.inquiry.entity;
 
 import com.assu.server.domain.common.entity.BaseEntity;
+import com.assu.server.domain.inquiry.dto.InquiryCreateRequestDTO;
 import com.assu.server.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,11 +41,21 @@ public class Inquiry extends BaseEntity {
 
     private LocalDateTime answeredAt;
 
-    public enum Status { WAITING, ANSWERED }
+    public enum Status { WAITING, ANSWERED, ALL }
 
     public void answer(String answerText) {
         this.answer = answerText;
         this.status = Status.ANSWERED;
         this.answeredAt = LocalDateTime.now();
+    }
+
+    public static Inquiry create(Member member, InquiryCreateRequestDTO inquiryCreateRequestDTO) {
+        return Inquiry.builder()
+                .member(member)
+                .title(inquiryCreateRequestDTO.title())
+                .content(inquiryCreateRequestDTO.content())
+                .email(inquiryCreateRequestDTO.email())
+                .status(Status.WAITING)
+                .build();
     }
 }
