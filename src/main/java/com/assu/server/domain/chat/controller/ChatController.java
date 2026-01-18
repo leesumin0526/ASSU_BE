@@ -1,6 +1,7 @@
 package com.assu.server.domain.chat.controller;
 
 import com.assu.server.domain.chat.dto.*;
+import com.assu.server.domain.chat.redis.RedisPublisher;
 import com.assu.server.domain.chat.service.BlockService;
 import com.assu.server.domain.chat.service.ChatService;
 import com.assu.server.global.apiPayload.BaseResponse;
@@ -25,6 +26,7 @@ public class ChatController {
     private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final BlockService blockService;
+    private final RedisPublisher redisPublisher;
 
     @Operation(
             summary = "채팅방을 생성하는 API",
@@ -66,14 +68,10 @@ public class ChatController {
         // 1. 서비스 호출
         MessageHandlingResult result = chatService.handleMessage(request);
         // 2. [항상 전송] 채팅방 메시지 전송
-        simpMessagingTemplate.convertAndSend("/sub/chat/" + request.roomId(), result.sendMessageResponseDTO());
+        redisPublisher.publishChatMessage(request.roomId(), result.sendMessageResponseDTO());
         // 3. [조건부 전송] 채팅방 목록 업데이트 전송
         if (result.hasRoomUpdates()) {
-            simpMessagingTemplate.convertAndSendToUser(
-                    result.receiverId().toString(),
-                    "/queue/updates",
-                    result.chatRoomUpdateDTO()
-            );
+            redisPublisher.publishChatRoomUpdate(result.receiverId(), result.chatRoomUpdateDTO());
         }
     }
 
