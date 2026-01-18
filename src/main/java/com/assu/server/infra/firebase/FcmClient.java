@@ -27,7 +27,6 @@ public class FcmClient {
     private final DeviceTokenRepository tokenRepo;
     private final DeviceTokenService deviceTokenService;
 
-    // 운영에서 3s는 다소 공격적 — 5s 정도 권장
     private static final Duration SEND_TIMEOUT = Duration.ofSeconds(5);
 
     /**
@@ -113,7 +112,7 @@ public class FcmClient {
             throw te;
 
         } catch (ExecutionException ee) {
-            // ★ 핵심: Future가 싸서 던진 예외를 원형으로 복원
+            // Future가 싸서 던진 예외를 원형으로 복원
             Throwable c = ee.getCause();
             if (c instanceof FirebaseMessagingException fme) {
                 log.error("[FCM] FirebaseMessagingException memberId={} http={} code={} root={}",
@@ -138,7 +137,7 @@ public class FcmClient {
     private String rootSummary(Throwable t) {
         if (t == null) return "null";
         Throwable r = t; while (r.getCause() != null) r = r.getCause();
-        return r.getClass().getName() + ": " + String.valueOf(r.getMessage());
+        return r.getClass().getName() + ": " + r.getMessage();
     }
 
     public record FcmResult(int successCount, int failureCount, List<String> invalidTokens) {
