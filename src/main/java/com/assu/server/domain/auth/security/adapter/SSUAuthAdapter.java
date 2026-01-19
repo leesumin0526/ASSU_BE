@@ -1,6 +1,6 @@
 package com.assu.server.domain.auth.security.adapter;
 
-import com.assu.server.domain.auth.entity.AuthRealm;
+import com.assu.server.domain.auth.entity.enums.AuthRealm;
 import com.assu.server.domain.auth.entity.SSUAuth;
 import com.assu.server.domain.auth.exception.CustomAuthException;
 import com.assu.server.domain.auth.repository.SSUAuthRepository;

@@ -1,7 +1,7 @@
 package com.assu.server.global.util;
 
 import com.assu.server.domain.member.entity.Member;
-import com.assu.server.domain.auth.entity.AuthRealm;
+import com.assu.server.domain.auth.entity.enums.AuthRealm;
 import com.assu.server.domain.common.enums.ActivationStatus;
 import com.assu.server.domain.common.enums.UserRole;
 import com.assu.server.domain.member.entity.Member;
@@ -44,7 +44,7 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public String getPassword() {
         // 폼 로그인/DaoAuthenticationProvider를 쓴다면 반드시 반환
-        return member.getCommonAuth().getPassword();
+        return member.getCommonAuth().getHashedPassword();
     }
 
     @Override
