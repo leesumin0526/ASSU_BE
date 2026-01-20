@@ -36,9 +36,9 @@ public class DeviceTokenController {
                     "- 로그아웃/탈퇴 시 호출해 device Token 등록을 해제합니다. 자신의 토큰만 해제가 가능합니다.\n"+
                     "  - 'token-id': Path Variable, Long\n"
     )
-    @DeleteMapping("/{token-id}")
+    @DeleteMapping("/{tokenId}")
     public BaseResponse<String> unregister(@AuthenticationPrincipal PrincipalDetails pd,
-                                           @PathVariable("token-id") Long tokenId) {
+                                           @PathVariable("tokenId") Long tokenId) {
         service.unregister(tokenId, pd.getId());
         return BaseResponse.onSuccess(
                 SuccessStatus._OK,

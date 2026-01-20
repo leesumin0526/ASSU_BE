@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class InquiryServiceImpl implements InquiryService {
 
@@ -23,7 +24,6 @@ public class InquiryServiceImpl implements InquiryService {
     private final MemberRepository memberRepository;
 
     /** 문의 등록 */
-    @Transactional
     @Override
     public Long create(InquiryCreateRequestDTO inquiryCreateRequestDTO, Long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -36,8 +36,8 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     /** 문의 내역 조회 (status=all|waiting|answered) */
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public PageResponseDTO<InquiryResponseDTO> getInquiries(Status status, int page, int size, Long memberId) {
         if (page < 1) throw new DatabaseException(ErrorStatus.PAGE_UNDER_ONE);
         if (size < 1 || size > 200) throw new DatabaseException(ErrorStatus.PAGE_SIZE_INVALID);
@@ -47,8 +47,8 @@ public class InquiryServiceImpl implements InquiryService {
         return PageResponseDTO.of(result);
     }
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public Page<InquiryResponseDTO> list(Status status, Pageable pageable, Long memberId) {
         Page<Inquiry> page = switch (status) {
             case WAITING -> inquiryRepository.findByMemberIdAndStatus(memberId, Status.WAITING, pageable);
@@ -59,8 +59,8 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     /** 단건 상세 조회 */
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public InquiryResponseDTO get(Long id, Long memberId) {
         Inquiry inquiry = inquiryRepository.findById(id)
                 .orElseThrow(() -> new DatabaseException(ErrorStatus.NO_SUCH_INQUIRY));
@@ -73,7 +73,6 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     /** 답변 저장(상태 ANSWERED 전환) */
-    @Transactional
     @Override
     public void answer(Long inquiryId, String answerText) {
         Inquiry inquiry = inquiryRepository.findById(inquiryId)

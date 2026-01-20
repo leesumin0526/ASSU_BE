@@ -68,7 +68,7 @@ public class MemberController {
             summary = "프로필 이미지 삭제 API",
             description = "# [v1.0 (2025-09-18)](https://clumsy-seeder-416.notion.site/2dc1197c19ed809cb813f74a1b4c5c26?source=copy_link)\n" +
                     "- 로그인한 사용자의 프로필 이미지를 삭제합니다.\n" +
-                    "- 스켈레톤 UI로 넣어둔 기본 이미지로 표시됩니다."
+                    "- 프론트의 기본 이미지를 표시합니다."
     )
     @DeleteMapping("/me/profile-image")
     public BaseResponse<String> deleteProfileImage(

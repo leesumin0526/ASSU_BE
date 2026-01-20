@@ -50,9 +50,9 @@ public class NotificationController {
                     "- 알림 아이디에 해당하는 알림을 읽음 처리합니다.\n"+
                     "  - notification-id: Path Variable, Long\n"
     )
-    @PostMapping("/{notification-id}/read")
+    @PostMapping("/{notificationId}/read")
     public BaseResponse<String> markRead(@AuthenticationPrincipal PrincipalDetails pd,
-                                         @PathVariable("notification-id") Long notificationId) throws AccessDeniedException {
+                                         @PathVariable("notificationId") Long notificationId) throws AccessDeniedException {
         notificationCommandService.markRead(notificationId, pd.getMemberId());
         return BaseResponse.onSuccess(SuccessStatus._OK,
                 "The notification has been marked as read successfully. id=" + notificationId);

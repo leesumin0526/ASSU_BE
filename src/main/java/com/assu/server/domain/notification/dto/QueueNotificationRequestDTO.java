@@ -44,7 +44,7 @@ public record QueueNotificationRequestDTO (
     @Schema(description = "테이블 번호", example = "11")
     String table_num,
 
-    @Schema(description = "전단지 내용", example = "20,000원 이상 구매 시 10% 할인")
+    @Schema(description = "계약서 내용", example = "20,000원 이상 구매 시 10% 할인")
     String paper_content,
 
     // PARTNER_PROPOSAL

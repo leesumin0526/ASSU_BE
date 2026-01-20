@@ -4,6 +4,7 @@ import com.assu.server.domain.common.entity.BaseEntity;
 import com.assu.server.domain.inquiry.dto.InquiryCreateRequestDTO;
 import com.assu.server.domain.member.entity.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -23,15 +24,19 @@ public class Inquiry extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @NotNull
     @Column(nullable = false, length = 120)
     private String title;
 
+    @NotNull
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @NotNull
     @Column(nullable = false, length = 120)
     private String email;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private Status status;

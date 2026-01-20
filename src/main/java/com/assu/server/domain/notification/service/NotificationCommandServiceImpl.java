@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class NotificationCommandServiceImpl implements NotificationCommandService {
     private final NotificationRepository notificationRepository;
@@ -27,7 +28,6 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
     private final MemberRepository memberRepository;
     private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
-    @Transactional
     @Override
     public Notification createAndQueue(Long receiverId, NotificationType type, Long refId, Map<String, Object> ctx) {
         Member member = memberRepository.findMemberById(receiverId)
@@ -51,9 +51,6 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
         return notification;
     }
 
-
-
-    @Transactional
     @Override
     public void markRead(Long notificationId, Long currentMemberId) {
         Notification n = notificationRepository.findById(notificationId)
@@ -65,7 +62,6 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
         n.markRead();
     }
 
-    @Transactional
     @Override
     public Map<String, Boolean> toggle(Long memberId, NotificationType type) {
         Member member = memberRepository.findMemberById(memberId)
@@ -85,7 +81,6 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
         return buildToggleResult(memberId, member.getRole());
     }
 
-    @Transactional
     protected void sendIfEnabled(Long receiverId, NotificationType type, Long refId, Map<String, Object> ctx) {
         if (!isEnabled(receiverId, type)) {
             Member member = memberRepository.findMemberById(receiverId)
@@ -97,30 +92,29 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
     }
 
     // 간단한 전송 메서드들
-    @Transactional @Override
+    @Override
     public void sendChat(Long receiverId, Long roomId, String senderName, String message) {
         sendIfEnabled(receiverId, NotificationType.CHAT, roomId, 
             Map.of("senderName", senderName, "message", message));
     }
 
-    @Transactional @Override
+    @Override
     public void sendOrder(Long receiverId, Long orderId, String tableNum, String paperContent) {
         sendIfEnabled(receiverId, NotificationType.ORDER, orderId,
             Map.of("table_num", tableNum, "paper_content", paperContent));
     }
 
-    @Transactional @Override
+    @Override
     public void sendPartnerSuggestion(Long receiverId, Long suggestionId) {
         sendIfEnabled(receiverId, NotificationType.PARTNER_SUGGESTION, suggestionId, Map.of());
     }
 
-    @Transactional @Override
+    @Override
     public void sendPartnerProposal(Long receiverId, Long proposalId, String partnerName) {
         sendIfEnabled(receiverId, NotificationType.PARTNER_PROPOSAL, proposalId,
             Map.of("partner_name", partnerName));
     }
 
-    @Transactional
     @Override
     public void queue(QueueNotificationRequestDTO req) {
         if (req.type() == null) {

@@ -13,21 +13,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DeviceTokenServiceImpl implements DeviceTokenService {
     private final DeviceTokenRepository deviceTokenRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional
     @Override
     public Long register(String token, Long memberId) {
         Member member = memberRepository.findMemberById(memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NO_SUCH_MEMBER));
 
         // 1) 같은 회원 + 같은 토큰 → 활성화만 복구
-        var sameTokenOpt = deviceTokenRepository.findByMemberIdAndToken(memberId, token);
+        Optional<DeviceToken> sameTokenOpt = deviceTokenRepository.findByMemberIdAndToken(memberId, token);
 
         if (sameTokenOpt.isPresent()) {
             DeviceToken exist = sameTokenOpt.get();
@@ -54,7 +55,6 @@ public class DeviceTokenServiceImpl implements DeviceTokenService {
         return newToken.getId();
     }
 
-    @Transactional
     @Override
     public void unregister(Long tokenId, Long memberId) {
         deviceTokenRepository.findById(tokenId)
@@ -68,7 +68,6 @@ public class DeviceTokenServiceImpl implements DeviceTokenService {
                 });
     }
 
-    @Transactional
     @Override
     public void deactivateTokens(List<String> invalidTokens) {
         List<DeviceToken> invalidEntities = deviceTokenRepository.findAllByTokenIn(invalidTokens);

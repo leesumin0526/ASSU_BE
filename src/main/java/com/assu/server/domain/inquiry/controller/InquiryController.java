@@ -13,13 +13,16 @@ import com.assu.server.global.util.PrincipalDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 @Tag(name = "Inquiry", description = "문의 API")
 @RestController
+@Validated
 @RequestMapping("/inquiries")
 @RequiredArgsConstructor
 public class InquiryController {
@@ -53,7 +56,7 @@ public class InquiryController {
     public BaseResponse<PageResponseDTO<InquiryResponseDTO>> list(
             @AuthenticationPrincipal PrincipalDetails pd,
             @RequestParam(defaultValue = "all") Inquiry.Status status,
-            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "1") @Min(1) Integer page,
             @RequestParam(defaultValue = "20") Integer size
     ) {
         PageResponseDTO<InquiryResponseDTO> inquiryResponseDTO = inquiryService.getInquiries(status, page, size, pd.getId());
@@ -67,10 +70,10 @@ public class InquiryController {
                     "- 본인의 단건 문의를 상세 조회합니다.\n"+
                     "  - inquiry-id: Path Variable, Long\n"
     )
-    @GetMapping("/{inquiry-id}")
+    @GetMapping("/{inquiryId}")
     public BaseResponse<InquiryResponseDTO> get(
             @AuthenticationPrincipal PrincipalDetails pd,
-            @PathVariable("inquiry-id") Long inquiryId)
+            @PathVariable("inquiryId") Long inquiryId)
     {
         InquiryResponseDTO inquiryResponseDTO = inquiryService.get(inquiryId, pd.getId());
         return BaseResponse.onSuccess(SuccessStatus._OK, inquiryResponseDTO);
@@ -83,9 +86,9 @@ public class InquiryController {
                     "- 문의에 답변을 저장하고 상태를 ANSWERED로 변경합니다.\n"+
                     "  - inquiry-id: Path Variable, Long\n"
     )
-    @PatchMapping("/{inquiry-id}/answer")
+    @PatchMapping("/{inquiryId}/answer")
     public BaseResponse<String> answer(
-            @PathVariable("inquiry-id") Long inquiryId,
+            @PathVariable("inquiryId") Long inquiryId,
             @RequestBody @Valid InquiryAnswerRequestDTO inquiryAnswerRequestDTO
     ) {
         inquiryService.answer(inquiryId, inquiryAnswerRequestDTO.answer());
