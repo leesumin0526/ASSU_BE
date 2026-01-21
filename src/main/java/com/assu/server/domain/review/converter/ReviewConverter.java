@@ -14,21 +14,17 @@ import org.springframework.data.domain.Page;
 
 public class ReviewConverter {
     public static ReviewResponseDTO.WriteReviewResponseDTO writeReviewResultDTO(Review review){
-        //enti -> dto
         return ReviewResponseDTO.WriteReviewResponseDTO.builder()
-                .reviewId(review.getId())// 리스폰스 dto로 아이디를 바꿔줄거다.
+                .reviewId(review.getId())
                 .rate(review.getRate())
                 .content(review.getContent())
-//                .memberId(review.getStudent().getId())
                 .createdAt(review.getCreatedAt())
                 .reviewImageUrls(review.getImageList().stream()
                         .map(ReviewPhoto::getPhotoUrl)
                         .collect(Collectors.toList()))
-                //한 리뷰 여러개 사진 but 하나로 묶임 추가 고려해보기 --추후에 !!
-                .build(); //리스폰스 리턴
+                .build();
     }
     public static Review toReviewEntity(ReviewRequestDTO.WriteReviewRequestDTO  request, Store store, Partner partner, Student student, String affiliation) {
-        //request
         return Review.builder()
                 .rate(request.getRate())
                 .content(request.getContent())
@@ -36,7 +32,6 @@ public class ReviewConverter {
             .affiliation(affiliation)
                 .partner(partner)
                 .student(student)
-                //    .imageList(request.getReviewImage())
                 .build();
     }
     public static ReviewResponseDTO.CheckReviewResponseDTO checkReviewResultDTO(Review review){
@@ -53,37 +48,9 @@ public class ReviewConverter {
                         .collect(Collectors.toList()))
                 .build();
     }
-    // public static List<ReviewResponseDTO.CheckReviewResponseDTO> checkStudentReviewResultDTO(List<Review> reviews){
-    //     return reviews.stream()
-    //             .map(ReviewConverter::checkStudentReviewResultDTO)
-    //             .collect(Collectors.toList());
-    // }
+
 
     public static Page<ReviewResponseDTO.CheckReviewResponseDTO> checkReviewResultDTO(Page<Review> reviews){
         return reviews.map(ReviewConverter::checkReviewResultDTO);
     }
-    //
-    // public static ReviewResponseDTO.CheckPartnerReviewResponseDTO checkPartnerReviewResultDTO(Review review){
-    //     return ReviewResponseDTO.CheckPartnerReviewResponseDTO.builder()
-    //             .reviewId(review.getId())
-    //             .storeId(review.getStore().getId())
-    //             .reviewerId(review.getStudent().getId())
-    //             .content(review.getContent())
-    //             .rate(review.getRate())
-    //             .createdAt(review.getCreatedAt())
-    //             .reviewImageUrls(review.getImageList().stream()
-    //                     .map(ReviewPhoto::getPhotoUrl)
-    //                     .collect(Collectors.toList()))
-    //             .build();
-    //
-    // }
-    //
-    // public static Page<ReviewResponseDTO.CheckPartnerReviewResponseDTO> checkPartnerReviewResultDTO(Page<Review> reviews){
-    //     return reviews.map(ReviewConverter::checkPartnerReviewResultDTO);
-    // }
-    // public static ReviewResponseDTO.DeleteReviewResponseDTO deleteReviewResultDTO(Long reviewId){
-    //     return ReviewResponseDTO.DeleteReviewResponseDTO.builder()
-    //             .reviewId(reviewId)
-    //             .build();
-    // }
 }

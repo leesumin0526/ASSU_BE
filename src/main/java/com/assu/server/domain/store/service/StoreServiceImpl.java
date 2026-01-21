@@ -25,10 +25,10 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	@Transactional
-	public StoreResponseDTO.todayBest getTodayBestStore() {
+	public StoreResponseDTO.TodayBest getTodayBestStore() {
 		List<String> bestStores = storeRepository.findTodayBestStoreNames();
 
-		return StoreResponseDTO.todayBest.builder()
+		return StoreResponseDTO.TodayBest.builder()
 			.bestStores(bestStores)
 			.build();
 	}

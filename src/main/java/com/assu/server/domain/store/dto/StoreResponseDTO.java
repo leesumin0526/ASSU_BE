@@ -33,7 +33,7 @@ public class StoreResponseDTO {
     @RequiredArgsConstructor
     @Builder
     @Getter
-    public static class todayBest{
+    public static class TodayBest{
         List<String> bestStores;
     }
 

@@ -27,8 +27,8 @@ public class StoreController {
 
 	@GetMapping("/best")
 	@Operation(summary = "홈화면의 현재 인기 매장 조회 api", description = "관리자, 사용자, 제휴업체 모두 사용하는 api")
-	public ResponseEntity<BaseResponse<StoreResponseDTO.todayBest>> getTodayBestStore() {
-		StoreResponseDTO.todayBest result = storeService.getTodayBestStore();
+	public ResponseEntity<BaseResponse<StoreResponseDTO.TodayBest>> getTodayBestStore() {
+		StoreResponseDTO.TodayBest result = storeService.getTodayBestStore();
 		return ResponseEntity.ok(BaseResponse.onSuccess(SuccessStatus.BEST_STORE_SUCCESS, result));
 	}
 

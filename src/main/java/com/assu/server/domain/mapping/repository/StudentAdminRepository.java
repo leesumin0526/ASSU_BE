@@ -13,7 +13,6 @@ import java.util.List;
 
 public interface StudentAdminRepository extends JpaRepository<StudentAdmin, Long> {
 
-    // 총 누적 가입자 수
     @Query("""
            select count(sa)
            from StudentAdmin sa
@@ -21,7 +20,6 @@ public interface StudentAdminRepository extends JpaRepository<StudentAdmin, Long
            """)
     Long countAllByAdminId(@Param("adminId") Long adminId);
 
-    // 기간별 가입자 수
     @Query("""
            select count(sa)
            from StudentAdmin sa
@@ -33,14 +31,12 @@ public interface StudentAdminRepository extends JpaRepository<StudentAdmin, Long
                                @Param("from") LocalDateTime from,
                                @Param("to")   LocalDateTime to);
 
-    // 이번 달 신규 가입자 수
     default Long countThisMonthByAdminId(Long adminId) {
         LocalDateTime from = YearMonth.now().atDay(1).atStartOfDay();
         LocalDateTime to   = LocalDateTime.now();
         return countByAdminIdBetween(adminId, from, to);
     }
 
-    // 오늘 제휴 사용 고유 사용자 수
     @Query(value = """
         SELECT COUNT(DISTINCT pu.student_id)
         FROM partnership_usage pu
@@ -69,7 +65,6 @@ public interface StudentAdminRepository extends JpaRepository<StudentAdmin, Long
         """, nativeQuery = true)
     List<StoreUsageWithPaper> findUsageByStoreWithPaper(@Param("adminId") Long adminId);
 
-    // 0건 포함 조회 (대시보드에서 모든 제휴 업체를 보여줘야 하는 경우)
     @Query(value = """
         SELECT
           p.id                                   AS paperId,
@@ -87,7 +82,7 @@ public interface StudentAdminRepository extends JpaRepository<StudentAdmin, Long
     List<StoreUsageWithPaper> findUsageByStoreIncludingZero(@Param("adminId") Long adminId);
 
     interface StoreUsageWithPaper {
-        Long getPaperId();    // 🆕 추가: Paper ID
+        Long getPaperId();
         Long getStoreId();
         String getStoreName();
         Long getUsageCount();

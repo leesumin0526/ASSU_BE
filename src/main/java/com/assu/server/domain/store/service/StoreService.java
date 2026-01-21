@@ -4,7 +4,7 @@ import com.assu.server.domain.store.dto.StoreResponseDTO;
 import com.assu.server.domain.user.dto.StudentResponseDTO;
 
 public interface StoreService {
-	StoreResponseDTO.todayBest getTodayBestStore();
+	StoreResponseDTO.TodayBest getTodayBestStore();
     StoreResponseDTO.WeeklyRankResponseDTO getWeeklyRank(Long memberId);
     StoreResponseDTO.ListWeeklyRankResponseDTO getListWeeklyRank(Long memberId);
 }
