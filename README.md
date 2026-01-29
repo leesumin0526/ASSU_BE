@@ -9,6 +9,7 @@
 **"제휴의 시작부터 끝까지, A:SSU에서 한 번에!"**
 
 [📱 Google Play Store](https://play.google.com/store/apps/details?id=com.ssu.assu&hl=ko) | [💻 GitHub](https://github.com/ASSU-dev/ASSU_BE.git)
+<img width="2048" height="853" alt="image" src="https://github.com/user-attachments/assets/9eb751fb-68d6-40ad-aa23-9a88ab575162" />
 
 </div>
 
